@@ -14,7 +14,7 @@ interface MetricsPanelProps {
 }
 
 export const MetricsPanel: React.FC<MetricsPanelProps> = ({ colors }) => {
-    const icv = useMemo(() => calculateICV(colors.background, colors.text, colors.primary), [colors]);
+    const icv = useMemo(() => calculateICV(colors.background, colors.text), [colors]);
     const rating = getICVRating(icv);
 
     // Detailed Analysis

@@ -23,8 +23,8 @@ export const PaletteComparator: React.FC = () => {
     const [paletteA, setPaletteA] = useState(defaultPalette);
     const [paletteB, setPaletteB] = useState(darkPalette);
 
-    const icvA = calculateICV(paletteA.background, paletteA.text, paletteA.primary);
-    const icvB = calculateICV(paletteB.background, paletteB.text, paletteB.primary);
+    const icvA = calculateICV(paletteA.background, paletteA.text);
+    const icvB = calculateICV(paletteB.background, paletteB.text);
 
     const handleChangeA = (k: string, v: string) => setPaletteA(p => ({ ...p, [k]: v }));
     const handleChangeB = (k: string, v: string) => setPaletteB(p => ({ ...p, [k]: v }));

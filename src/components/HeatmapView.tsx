@@ -100,13 +100,23 @@ export const HeatmapView: React.FC<HeatmapViewProps> = ({ colors }) => {
             </div>
 
             <div className="absolute bottom-4 left-0 right-0 text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur rounded-full shadow-lg text-sm font-medium">
-                    <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
-                    Mapa de Calor Cognitivo (Simulación)
+                <div className="inline-flex items-center gap-4 px-6 py-3 bg-white/95 backdrop-blur rounded-xl shadow-lg border border-slate-200">
+                    <div className="flex flex-col items-center gap-1">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Nivel de Carga Visual</span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs font-medium text-slate-600">Baja</span>
+                            <div className="h-2 w-32 rounded-full bg-gradient-to-r from-transparent via-red-200 to-red-600 border border-slate-100" />
+                            <span className="text-xs font-medium text-slate-900 font-bold">Alta</span>
+                        </div>
+                    </div>
+                    <div className="h-8 w-px bg-slate-200 mx-2" />
+                    <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                        <span className="text-xs text-slate-500">
+                            % = Probabilidad de Fatiga
+                        </span>
+                    </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                    Las zonas rojas indican elementos que requieren mayor esfuerzo cognitivo visual o generan fatiga.
-                </p>
             </div>
         </div>
     );

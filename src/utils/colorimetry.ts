@@ -87,7 +87,7 @@ export const getContrastRatio = (color1: string, color2: string) => {
  * Formula (Heuristic):
  * ICV = (W_S * Saturation) + (W_C * ContrastPenalty) + (W_B * BrightnessFatigue) + (W_H * HueImpact)
  */
-export const calculateICV = (bgHex: string, fgHex: string, primaryHex?: string): number => {
+export const calculateICV = (bgHex: string, fgHex: string): number => {
     const bgData = getColorData(bgHex);
 
     // 1. Saturation Impact (High saturation is tiring)
