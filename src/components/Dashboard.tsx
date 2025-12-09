@@ -83,28 +83,32 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModeChange, currentMode 
                     >
                         <Flame size={16} /> <span className="hidden sm:inline">Mapa de Calor</span>
                     </button>
-                    {/* Divider */}
-                    <div className="w-px h-6 bg-border mx-1" />
-
-                    <select
-                        value={currentMode}
-                        onChange={(e) => onModeChange?.(e.target.value as any)}
-                        className="bg-transparent text-sm font-medium text-muted-foreground border-none focus:ring-0 cursor-pointer hover:text-foreground transition-colors outline-none"
-                    >
-                        <option value="normal">Normal</option>
-                        <option value="astigmatism">Astigmatismo</option>
-                        <option value="miopia">Miopía</option>
-                        <option value="accessible">Accesible</option>
-                    </select>
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <button className="p-2 hover:bg-secondary rounded-lg text-sm font-medium flex items-center gap-2 text-muted-foreground transition-colors">
-                        <Share2 size={16} /> <span className="hidden xl:inline">Compartir</span>
-                    </button>
-                    <button className="px-3 py-2 bg-primary text-primary-foreground hover:opacity-90 rounded-lg text-sm font-medium shadow-sm flex items-center gap-2 transition-all">
-                        <Download size={16} /> <span className="hidden md:inline">Exportar</span>
-                    </button>
+                <div className="flex items-center gap-4">
+                    {/* Mode Selector */}
+                    <div className="flex items-center gap-2 bg-secondary/30 px-3 py-1.5 rounded-lg border border-border/50">
+                        <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Modo:</span>
+                        <select
+                            value={currentMode}
+                            onChange={(e) => onModeChange?.(e.target.value as any)}
+                            className="bg-transparent text-sm font-bold text-foreground border-none focus:ring-0 cursor-pointer outline-none"
+                        >
+                            <option value="normal">Normal</option>
+                            <option value="astigmatism">Astigmatismo</option>
+                            <option value="miopia">Miopía</option>
+                            <option value="accessible">Accesible</option>
+                        </select>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <button className="p-2 hover:bg-secondary rounded-lg text-sm font-medium flex items-center gap-2 text-muted-foreground transition-colors">
+                            <Share2 size={16} /> <span className="hidden xl:inline">Compartir</span>
+                        </button>
+                        <button className="px-3 py-2 bg-primary text-primary-foreground hover:opacity-90 rounded-lg text-sm font-medium shadow-sm flex items-center gap-2 transition-all">
+                            <Download size={16} /> <span className="hidden md:inline">Exportar</span>
+                        </button>
+                    </div>
                 </div>
             </header>
 
@@ -136,7 +140,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModeChange, currentMode 
 
                 {currentView === 'compare' && (
                     <div className="h-full overflow-y-auto">
-                        <PaletteComparator />
+                        <PaletteComparator mode="normal" />
                     </div>
                 )}
 
