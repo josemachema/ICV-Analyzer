@@ -11,10 +11,12 @@ interface MetricsPanelProps {
         primary: string;
         secondary: string;
     };
+    icvMultiplier?: number;
+    mode?: 'normal' | 'astigmatism' | 'miopia' | 'accessible';
 }
 
-export const MetricsPanel: React.FC<MetricsPanelProps> = ({ colors }) => {
-    const icv = useMemo(() => calculateICV(colors.background, colors.text), [colors]);
+export const MetricsPanel: React.FC<MetricsPanelProps> = ({ colors, icvMultiplier = 1, mode = 'normal' }) => {
+    const icv = useMemo(() => Math.round(calculateICV(colors.background, colors.text) * icvMultiplier), [colors, icvMultiplier]);
     const rating = getICVRating(icv);
 
     // Detailed Analysis
@@ -87,18 +89,52 @@ export const MetricsPanel: React.FC<MetricsPanelProps> = ({ colors }) => {
                 <h4 className="text-sm font-medium border-b border-border pb-2">Diagnóstico Rápido</h4>
 
                 <div className="grid gap-2 text-sm">
-                    <div className="flex justify-between items-center p-2 rounded bg-secondary/30">
-                        <span>Contraste Texto/Fondo</span>
-                        <span className={cn("font-mono font-bold", contrast < 4.5 ? "text-red-500" : "text-green-500")}>
-                            {contrast.toFixed(2)}:1
-                        </span>
-                    </div>
-                    <div className="flex justify-between items-center p-2 rounded bg-secondary/30">
-                        <span>Fatiga Cromática</span>
-                        <span className={cn("font-medium", bgData.s > 70 ? "text-red-500" : "text-green-500")}>
-                            {bgData.s > 70 ? "Alta (Saturada)" : "Baja"}
-                        </span>
-                    </div>
+                    {mode === 'astigmatism' ? (
+                        <>
+                            <div className="flex items-center gap-2 p-2 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                                <AlertTriangle size={16} />
+                                <span className="font-medium">Modo Astigmatismo Activado</span>
+                            </div>
+                            <div className="p-3 bg-secondary/30 rounded space-y-2">
+                                <p className="font-medium text-xs uppercase opacity-70">Recomendaciones Específicas:</p>
+                                <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
+                                    <li>Evita blancos puros (Usar #F8FAFC o similar).</li>
+                                    <li>Usa texto más grueso (Font-weight 500+).</li>
+                                    <li>Incrementa contraste mínimo a 6:1.</li>
+                                </ul>
+                            </div>
+                        </>
+                    ) : mode === 'miopia' ? (
+                        <>
+                            <div className="flex items-center gap-2 p-2 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                                <AlertTriangle size={16} />
+                                <span className="font-medium">Modo Miopía Activado</span>
+                            </div>
+                            <div className="p-3 bg-secondary/30 rounded space-y-2">
+                                <p className="font-medium text-xs uppercase opacity-70">Recomendaciones Específicas:</p>
+                                <ul className="list-disc pl-4 space-y-1 text-muted-foreground">
+                                    <li>Evita texto muy delgado (Usar semibold).</li>
+                                    <li>Aumenta contraste mínimo a 6.5:1.</li>
+                                    <li>Aumenta el tamaño de fuente un 10–15%.</li>
+                                </ul>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="flex justify-between items-center p-2 rounded bg-secondary/30">
+                                <span>Contraste Texto/Fondo</span>
+                                <span className={cn("font-mono font-bold", contrast < 4.5 ? "text-red-500" : "text-green-500")}>
+                                    {contrast.toFixed(2)}:1
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-center p-2 rounded bg-secondary/30">
+                                <span>Fatiga Cromática</span>
+                                <span className={cn("font-medium", bgData.s > 70 ? "text-red-500" : "text-green-500")}>
+                                    {bgData.s > 70 ? "Alta (Saturada)" : "Baja"}
+                                </span>
+                            </div>
+                        </>
+                    )}
 
                     <div className="flex items-start gap-2 mt-2 p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 rounded text-sm">
                         {contrast < 3 && <AlertTriangle size={16} className="mt-0.5 shrink-0" />}

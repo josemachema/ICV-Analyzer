@@ -1,5 +1,6 @@
 import React from 'react';
 import { Home, Settings, User, Bell, Search, Menu } from 'lucide-react';
+import { cn } from '../lib/utils';
 
 interface InterfacePreviewProps {
     colors: {
@@ -8,23 +9,31 @@ interface InterfacePreviewProps {
         primary: string;
         secondary: string;
     };
+    mode?: 'normal' | 'astigmatism' | 'miopia' | 'accessible';
 }
 
-export const InterfacePreview: React.FC<InterfacePreviewProps> = ({ colors }) => {
+export const InterfacePreview: React.FC<InterfacePreviewProps> = ({ colors, mode = 'normal' }) => {
     // We apply styles inline for dynamic simulation
     const containerStyle = { backgroundColor: colors.background, color: colors.text };
     const primaryStyle = { backgroundColor: colors.primary, color: '#FFFFFF' }; // Assuming white text on primary for now, could act smarter
     const secondaryStyle = { backgroundColor: colors.secondary };
 
+    // Accessible Mode Classes
+    const isAccessible = mode === 'accessible';
+    const accessibleTextClass = isAccessible ? "font-semibold tracking-wide" : "";
+    const accessibleBorderClass = isAccessible ? "border border-black/10" : "";
+
     return (
-        <div className="bg-card text-card-foreground p-1 rounded-xl border border-border shadow-sm overflow-hidden flex flex-col h-full">
+        <div className={cn("bg-card text-card-foreground p-1 rounded-xl border border-border shadow-sm overflow-hidden flex flex-col h-full",
+            isAccessible ? "shadow-md" : ""
+        )}>
             <div className="p-3 border-b border-border bg-muted/30 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Simulador de Interfaz
+                Simulador de Interfaz {isAccessible && <span className="ml-2 text-primary font-bold">(Accesibilidad Activa)</span>}
             </div>
 
             {/* Simulation Container - Isolated DOM */}
             <div
-                className="flex-1 p-4 overflow-hidden relative transition-colors duration-300"
+                className={cn("flex-1 p-4 overflow-hidden relative transition-colors duration-300", accessibleTextClass)}
                 style={containerStyle}
             >
                 {/* Mock Header */}
@@ -36,7 +45,7 @@ export const InterfacePreview: React.FC<InterfacePreviewProps> = ({ colors }) =>
                     <div className="flex gap-3">
                         <Search size={20} />
                         <Bell size={20} />
-                        <div className="w-8 h-8 rounded-full" style={primaryStyle}></div>
+                        <div className={cn("w-8 h-8 rounded-full", accessibleBorderClass)} style={primaryStyle}></div>
                     </div>
                 </div>
 
@@ -53,15 +62,15 @@ export const InterfacePreview: React.FC<InterfacePreviewProps> = ({ colors }) =>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {/* Stats */}
-                            <div className="p-4 rounded-lg shadow-sm" style={secondaryStyle}>
+                            <div className={cn("p-4 rounded-lg shadow-sm", accessibleBorderClass)} style={secondaryStyle}>
                                 <h3 className="text-xs font-semibold opacity-70 mb-1 uppercase tracking-wider">Total Users</h3>
                                 <p className="text-2xl font-bold">1,234</p>
                             </div>
-                            <div className="p-4 rounded-lg shadow-sm" style={secondaryStyle}>
+                            <div className={cn("p-4 rounded-lg shadow-sm", accessibleBorderClass)} style={secondaryStyle}>
                                 <h3 className="text-xs font-semibold opacity-70 mb-1 uppercase tracking-wider">Active Now</h3>
                                 <p className="text-2xl font-bold">567</p>
                             </div>
-                            <div className="p-4 rounded-lg shadow-sm" style={secondaryStyle}>
+                            <div className={cn("p-4 rounded-lg shadow-sm", accessibleBorderClass)} style={secondaryStyle}>
                                 <h3 className="text-xs font-semibold opacity-70 mb-1 uppercase tracking-wider">Revenue</h3>
                                 <p className="text-2xl font-bold">$89k</p>
                             </div>
@@ -69,7 +78,7 @@ export const InterfacePreview: React.FC<InterfacePreviewProps> = ({ colors }) =>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             {/* Forms Section */}
-                            <div className="p-4 rounded-lg border flex flex-col gap-3 shadow-sm bg-opacity-50" style={{ borderColor: colors.secondary }}>
+                            <div className={cn("p-4 rounded-lg border flex flex-col gap-3 shadow-sm bg-opacity-50", accessibleBorderClass)} style={{ borderColor: colors.secondary }}>
                                 <h4 className="font-semibold text-sm mb-1">Configuración</h4>
                                 <div className="space-y-3">
                                     <div className="flex flex-col gap-1">
@@ -98,13 +107,13 @@ export const InterfacePreview: React.FC<InterfacePreviewProps> = ({ colors }) =>
                             {/* Alert & Table Section */}
                             <div className="flex flex-col gap-4">
                                 {/* Alerts */}
-                                <div className="p-3 rounded-lg border border-l-4 flex flex-col gap-1" style={{ backgroundColor: colors.secondary, borderColor: colors.primary, borderLeftColor: colors.primary }}>
+                                <div className={cn("p-3 rounded-lg border border-l-4 flex flex-col gap-1", accessibleBorderClass)} style={{ backgroundColor: colors.secondary, borderColor: colors.primary, borderLeftColor: colors.primary }}>
                                     <h5 className="text-xs font-bold flex items-center gap-2" style={{ color: colors.text }}><Bell size={12} /> Nueva Actualización</h5>
                                     <p className="text-xs opacity-80">El sistema se ha actualizado correctamente.</p>
                                 </div>
 
                                 {/* Table */}
-                                <div className="border rounded-lg overflow-hidden text-sm" style={{ borderColor: colors.secondary }}>
+                                <div className={cn("border rounded-lg overflow-hidden text-sm", accessibleBorderClass)} style={{ borderColor: colors.secondary }}>
                                     <div className="p-2 border-b bg-opacity-10 font-medium text-xs opacity-70" style={{ borderColor: colors.secondary, backgroundColor: colors.secondary }}>
                                         Últimos Accesos
                                     </div>

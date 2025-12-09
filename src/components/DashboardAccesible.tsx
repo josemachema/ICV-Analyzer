@@ -12,14 +12,15 @@ interface DashboardProps {
     currentMode?: 'normal' | 'astigmatism' | 'miopia' | 'accessible';
 }
 
-export const Dashboard: React.FC<DashboardProps> = ({ onModeChange, currentMode = 'normal' }) => {
+export const DashboardAccesible: React.FC<DashboardProps> = ({ onModeChange, currentMode = 'accessible' }) => {
     const [currentView, setCurrentView] = useState<'analyzer' | 'compare' | 'heatmap'>('analyzer');
 
+    // Accessible defaults (High Contrast)
     const [colors, setColors] = useState({
-        background: "#f8fafc", // Slate-50
-        text: "#0f172a", // Slate-900
-        primary: "#3b82f6", // Blue-500
-        secondary: "#e2e8f0" // Slate-200
+        background: "#000000", // Black
+        text: "#FFFFFF", // White
+        primary: "#FFFF00", // Yellow
+        secondary: "#333333" // Dark Gray
     });
 
     const handleColorChange = (key: string, value: string) => {
@@ -31,10 +32,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModeChange, currentMode 
 
     const handleReset = () => {
         setColors({
-            background: "#f8fafc",
-            text: "#0f172a",
-            primary: "#3b82f6",
-            secondary: "#e2e8f0"
+            background: "#000000",
+            text: "#FFFFFF",
+            primary: "#FFFF00",
+            secondary: "#333333"
         });
     };
 
@@ -47,9 +48,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModeChange, currentMode 
                         <LayoutDashboard className="text-primary" size={24} />
                     </div>
                     <div>
-                        <h1 className="font-bold text-lg leading-tight hidden md:block">
-                            ICV Analyzer
-                        </h1>
+                        <h1 className="font-bold text-lg leading-tight hidden md:block">ICV Analyzer (Modo Accesible)</h1>
                         <p className="text-xs text-muted-foreground hidden lg:block">Visual Load Evaluation Dashboard</p>
                     </div>
                 </div>
@@ -123,7 +122,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModeChange, currentMode 
                             </section>
 
                             <section className="flex-1">
-                                <MetricsPanel colors={colors} />
+                                <MetricsPanel colors={colors} icvMultiplier={0.8} mode="accessible" />
                             </section>
                         </div>
 

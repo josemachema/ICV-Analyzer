@@ -12,7 +12,7 @@ interface DashboardProps {
     currentMode?: 'normal' | 'astigmatism' | 'miopia' | 'accessible';
 }
 
-export const Dashboard: React.FC<DashboardProps> = ({ onModeChange, currentMode = 'normal' }) => {
+export const DashboardMiopia: React.FC<DashboardProps> = ({ onModeChange, currentMode = 'miopia' }) => {
     const [currentView, setCurrentView] = useState<'analyzer' | 'compare' | 'heatmap'>('analyzer');
 
     const [colors, setColors] = useState({
@@ -47,9 +47,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModeChange, currentMode 
                         <LayoutDashboard className="text-primary" size={24} />
                     </div>
                     <div>
-                        <h1 className="font-bold text-lg leading-tight hidden md:block">
-                            ICV Analyzer
-                        </h1>
+                        <h1 className="font-bold text-lg leading-tight hidden md:block">ICV Analyzer (Modo Miopía)</h1>
                         <p className="text-xs text-muted-foreground hidden lg:block">Visual Load Evaluation Dashboard</p>
                     </div>
                 </div>
@@ -123,13 +121,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModeChange, currentMode 
                             </section>
 
                             <section className="flex-1">
-                                <MetricsPanel colors={colors} />
+                                <MetricsPanel colors={colors} icvMultiplier={1.30} mode="miopia" />
                             </section>
                         </div>
 
                         {/* Right Column: Visualizer */}
                         <div className="lg:col-span-8 overflow-y-auto max-h-[calc(100vh-6rem)]">
-                            <InterfacePreview colors={colors} />
+                            {/* Myopia Simulation Wrapper */}
+                            <div style={{ filter: 'blur(2px) contrast(0.85)' }} className="h-full">
+                                <InterfacePreview colors={colors} mode="miopia" />
+                            </div>
                         </div>
                     </div>
                 )}
